@@ -28,6 +28,7 @@ const Controller = () => {
         new URLSearchParams({ text: text.trim() }),
         { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       );
+      
 
       const almaMessage = { sender: "alma", text: response.data.response };
       setMessages([...messagesArr, almaMessage]);
