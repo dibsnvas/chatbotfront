@@ -24,7 +24,7 @@ const Controller = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/post-text/",
+        "https://chattext-back.onrender.com/post-text/",
         new URLSearchParams({ text: text.trim() }),
         { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       );

@@ -13,7 +13,7 @@ function Title({ setMessages }: Props) {
     setIsResetting(true);
 
     try {
-      const res = await axios.get("http://127.0.0.1:8000/reset", {
+      const res = await axios.get("https://chattext-back.onrender.com/reset", {
         headers: {
           "Content-Type": "application/json",
         },
