@@ -13,7 +13,7 @@ function Title({ setMessages }: Props) {
     setIsResetting(true);
 
     try {
-      const res = await axios.get("https://chatbot-production-7efb.up.railway.app/reset", {
+      const res = await axios.get("http://127.0.0.1:8000/reset", {
         headers: {
           "Content-Type": "application/json",
         },
@@ -24,15 +24,14 @@ function Title({ setMessages }: Props) {
       }
     } catch (err) {
       console.error("Error resetting conversation:", err);
-      // Optionally notify the user about the error
     }
 
     setIsResetting(false);
   };
 
   return (
-    <div className="flex justify-between items-center w-full p-6 bg-customPink text-customBlue font-bold shadow text-2xl">
-      <div className="flex-1 text-center">Shyraq</div>
+    <div className="flex justify-between items-center w-full p-6 bg-customBlue text-customPink font-bold shadow text-2xl">
+      <div className="flex-1 text-center text-white">Shyraq</div>
       <button
         onClick={resetConversation}
         className={
