@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Title from "./Title";
 
@@ -6,6 +6,20 @@ const Controller = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [textInput, setTextInput] = useState("");
+  const [prompt, setPrompt] = useState("");
+
+  const prompts = [
+    "Напиши анекдот",
+    "Напиши сказку",
+    "Поиграем в города",
+    "Поиграем в игру",
+    "Напиши факт из истории"
+  ];
+
+  useEffect(() => {
+    const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+    setPrompt(randomPrompt);
+  }, []);
 
   const handleTextSubmit = async () => {
     if (!textInput.trim()) return;
@@ -21,7 +35,6 @@ const Controller = () => {
         new URLSearchParams({ text: textInput.trim() }),
         { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       );
-    
 
       const almaMessage = { sender: "alma", text: response.data.response };
       setMessages([...messagesArr, almaMessage]);
@@ -30,6 +43,12 @@ const Controller = () => {
       console.error("Error handling text submit:", err);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleTextSubmit();
     }
   };
 
@@ -43,8 +62,8 @@ const Controller = () => {
             <div
               key={index + message.sender}
               className={
-                "flex flex-col " +
-                (message.sender === "alma" ? "flex items-end" : "")
+                "flex " +
+                (message.sender === "me" ? "justify-end" : "justify-start")
               }
             >
               <div className="mt-4">
@@ -55,9 +74,18 @@ const Controller = () => {
                       : "ml-2 text-blue-500"
                   }
                 >
-                  {message.sender}
+                  {message.sender === "me" ? "Я" : "alma"}
                 </p>
-                <p className="text-black">{message.text}</p>
+                <p
+                  className={
+                    "p-2 rounded-lg " +
+                    (message.sender === "me"
+                      ? "bg-blue-100 text-right"
+                      : "bg-gray-200 text-left")
+                  }
+                >
+                  {message.text}
+                </p>
               </div>
             </div>
           ))}
@@ -81,8 +109,9 @@ const Controller = () => {
               type="text"
               value={textInput}
               onChange={(e) => setTextInput(e.target.value)}
-              className="border rounded p-2"
-              placeholder="Напишите сообщение..."
+              onKeyPress={handleKeyPress}
+              className="border rounded p-2 flex-grow"
+              placeholder={prompt}
             />
             <button
               onClick={handleTextSubmit}
