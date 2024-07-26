@@ -16,12 +16,9 @@ const Controller = () => {
     setIsLoading(true);
 
     try {
-      const payload = new URLSearchParams({ text: textInput.trim() });
-      console.log("Sending payload:", payload.toString());
-
       const response = await axios.post(
-        "https://chattext-back.onrender.com/post-text/",
-        payload,
+        "https://chattext-back.onrender.com//post-text/",
+        new URLSearchParams({ text: textInput.trim() }),
         { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       );
 
@@ -30,9 +27,6 @@ const Controller = () => {
       setTextInput("");
     } catch (err) {
       console.error("Error handling text submit:", err);
-      if (err.response) {
-        console.error("Server response:", err.response.data);
-      }
     } finally {
       setIsLoading(false);
     }
