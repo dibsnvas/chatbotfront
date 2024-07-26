@@ -26,35 +26,8 @@ const Controller = () => {
       const almaMessage = { sender: "alma", text: response.data.response };
       setMessages([...messagesArr, almaMessage]);
       setTextInput("");
-    } catch (error) {
-      console.error("Error handling text submit:", error);
-
-      // Enhanced Error Handling
-      let errorMessage = "An error occurred. Please try again.";
-      if (error.response) {
-        switch (error.response.status) {
-          case 400:
-            errorMessage = "The message format is incorrect. Please try again.";
-            break;
-          case 404:
-            errorMessage = "Backend API not found. Check the URL.";
-            break;
-          case 500:
-            errorMessage = "Internal Server Error. Please try again later.";
-            break;
-          case 503: 
-            errorMessage = "ChatGPT service unavailable or OpenAI API error. Please try again later.";
-            break;
-          // Add more cases for other specific status codes if needed
-        }
-      } else if (error.request) {
-        errorMessage = "No response received from the server.";
-      }
-
-      setMessages([
-        ...messagesArr,
-        { sender: "error", text: errorMessage }
-      ]);
+    } catch (err) {
+      console.error("Error handling text submit:", err);
     } finally {
       setIsLoading(false);
     }
